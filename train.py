@@ -1,16 +1,20 @@
+#_*_coding:utf-8_*_
+
 import xgboost as xgb
 import enrollment_feature
 import numpy as np
 import csv
 from sklearn.model_selection import train_test_split
 from itertools import zip_longest
+import time
 
 class train:
     def __init__(self):
+        start_time = time.time()
         self.enft = enrollment_feature.EnrollmentFT()
         label = self.get_label()
         train = self.get_train()
-        print(np.shape(train))
+        data_time = int((time.time() - start_time)/60)
 
         X_train, X_test, y_train, y_test = train_test_split(train, label, test_size=0.3, random_state=1)
         xgb_train = xgb.DMatrix(X_train, y_train)
@@ -46,13 +50,13 @@ class train:
             if int(y) == int(y_t):
                 c_num += 1
         print(c_num / len(pred))
+        print(data_time, ((time.time() - start_time) / 60))
 
 
     def get_label(self):
         label = []
         with open('.\\train\\truth_train.csv') as f:
             info = csv.reader(f)
-
             for row in info:
                 en_id, truth = row
                 if en_id in self.enft.user_course:

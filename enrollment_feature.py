@@ -1,3 +1,5 @@
+#_*_coding:utf-8_*_
+
 import log
 import datetime
 import numpy as np
@@ -6,9 +8,7 @@ class EnrollmentFT:
     def __init__(self):
         self.user_course = {}
         self.UCFeature = []
-        log_info = log.LogInfo('.\\train\\log_train.csv').enrollment_info
-        log_info_test = log.LogInfo('.\\test\\log_test.csv').enrollment_info
-        log_info.update(log_info_test)
+        log_info = log.LogInfo('.\\train\\log_test.csv').enrollment_info
 
         event = ('problem', 'video', 'access', 'wiki', 'discussion', 'navigate', 'page_close')
         source = ('server', 'browser')
