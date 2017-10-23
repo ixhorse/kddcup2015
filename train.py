@@ -7,9 +7,10 @@ from itertools import zip_longest
 
 class train:
     def __init__(self):
-        self.ucf = enrollment_feature.EnrollmentFT().user_course
+        self.enft = enrollment_feature.EnrollmentFT()
         label = self.get_label()
         train = self.get_train()
+        print(np.shape(train))
 
         X_train, X_test, y_train, y_test = train_test_split(train, label, test_size=0.3, random_state=1)
         xgb_train = xgb.DMatrix(X_train, y_train)
@@ -29,13 +30,13 @@ class train:
             # ，假设 h 在 0.01 附近，min_child_weight 为 1 意味着叶子节点中最少需要包含 100 个样本。
             # 这个参数非常影响结果，控制叶子节点中二阶导的和的最小值，该参数值越小，越容易 overfitting。
             'silent': 0,  # 设置成1则没有运行信息输出，最好是设置为0.
-            'eta': 0.007,  # 如同学习率
+            'eta': 0.006,  # 如同学习率
             'seed': 1000,
-            'nthread': 4,  # cpu 线程数
+            'nthread': 6,  # cpu 线程数
             # 'eval_metric': 'auc'
         }
         plist = list(params.items())
-        num_rounds = 5000
+        num_rounds = 6000
         model = xgb.train(plist, xgb_train, num_rounds, evals=[(xgb_test, 'eval'), (xgb_train, 'train')], early_stopping_rounds=100)
         pred = model.predict(xgb_test, ntree_limit=model.best_ntree_limit)
 
@@ -54,18 +55,11 @@ class train:
 
             for row in info:
                 en_id, truth = row
-                if en_id in self.ucf:
+                if en_id in self.enft.user_course:
                     label.append(truth)
         return np.array(label)
 
     def get_train(self):
-        fg = 1
-        for en_id in self.ucf:
-            if fg:
-                train = np.array(np.array(self.ucf[en_id]))
-                fg = 0
-            else:
-                train = np.vstack([train, np.array(self.ucf[en_id])])
-        return train
+        return np.array(self.enft.UCFeature)
 
 t = train()

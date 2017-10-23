@@ -5,7 +5,10 @@ import numpy as np
 class EnrollmentFT:
     def __init__(self):
         self.user_course = {}
+        self.UCFeature = []
         log_info = log.LogInfo('.\\train\\log_train.csv').enrollment_info
+        log_info_test = log.LogInfo('.\\test\\log_test.csv').enrollment_info
+        log_info.update(log_info_test)
 
         event = ('problem', 'video', 'access', 'wiki', 'discussion', 'navigate', 'page_close')
         source = ('server', 'browser')
@@ -36,6 +39,7 @@ class EnrollmentFT:
             #平均间隔
             interval_mean = np.array(day_interval).mean() if day_interval else 0
 
+            self.UCFeature.append([enrollment, log_num] + source_sts+event_sts+[day_num, span, interval_mean])
             self.user_course[enrollment] = [enrollment, log_num] + source_sts+event_sts+[day_num, span, interval_mean]
 
 # feature = EnrollmentFT().user_course
