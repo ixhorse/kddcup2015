@@ -1,7 +1,6 @@
 #-*-coding:utf-8-*-
 
 import xgboost as xgb
-import enrollment_feature
 import numpy as np
 import csv
 from sklearn.model_selection import train_test_split
