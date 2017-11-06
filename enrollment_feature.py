@@ -15,6 +15,8 @@ class EnrollmentFT:
 
         for enrollment in log_info:
             log_num = 0
+            log_num_last_oneweek = 0
+            log_num_last_twoweek = 0
             source_sts = [0, 0]
             event_sts = [0 for x in range(0, 7)]
             day_num = 1 #登录天数
@@ -29,6 +31,11 @@ class EnrollmentFT:
                 event_sts[event.index(row[2])] += 1
                 log_num += 1
                 t = datetime.datetime.strptime(row[0], '%Y-%m-%dT%H:%M:%S')
+                if((t_end - t).days <= 7):
+                    log_num_last_oneweek +=1 
+                    log_num_last_twoweek += 1
+                elif((t_end - t).days <= 14):
+                    log_num_last_twoweek += 1
                 if(log_info[enrollment].index(row) != 0):
                     last_span = t.day - t_last.day + (t.month - t_last.month)*30 + (t.year - t_last.year)*356
                     if(last_span > 0):
@@ -40,7 +47,8 @@ class EnrollmentFT:
             interval_mean = np.array(day_interval).mean() if day_interval else 0
 
             #self.UCFeature.append([enrollment, log_num] + source_sts+event_sts+[day_num, span, interval_mean])
-            self.user_course[enrollment] = [log_num] + source_sts+event_sts+[day_num, span, interval_mean]
+            self.user_course[enrollment] = [log_num] + source_sts+event_sts + \
+                                           [day_num, span, interval_mean, log_num_last_oneweek, log_num_last_twoweek]
 
 # feature = EnrollmentFT().user_course
 # for id in feature:
