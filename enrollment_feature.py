@@ -8,7 +8,7 @@ class EnrollmentFT:
     def __init__(self):
         self.user_course = {}
         #self.UCFeature = []
-        log_info = log.LogInfo('..\\data\\train\\log_train.csv').enrollment_info
+        log_info = log.LogInfo('../data/train/log_train.csv').enrollment_info
 
         event = ('problem', 'video', 'access', 'wiki', 'discussion', 'navigate', 'page_close')
         source = ('server', 'browser')
@@ -22,7 +22,7 @@ class EnrollmentFT:
             day_interval = [] #两次登录间隔天数
             t_begin = datetime.datetime.strptime(log_info[enrollment][0][0], '%Y-%m-%dT%H:%M:%S')
             t_end = datetime.datetime.strptime(log_info[enrollment][-1][0], '%Y-%m-%dT%H:%M:%S')
-            span = t_end.day - t_begin.day + (t_end.month - t_begin.month) * 30 + (t_end.year - t_begin.year)*365
+            span = (t_end - t_begin).days + 1
 
             for row in log_info[enrollment]:
                 source_sts[source.index(row[1])] += 1
@@ -30,7 +30,7 @@ class EnrollmentFT:
                 log_num += 1
                 t = datetime.datetime.strptime(row[0], '%Y-%m-%dT%H:%M:%S')
                 if(log_info[enrollment].index(row) != 0):
-                    last_span = t.day - t_last.day
+                    last_span = t.day - t_last.day + (t.month - t_last.month)*30 + (t.year - t_last.year)*356
                     if(last_span > 0):
                         day_num += 1
                         day_interval.append(last_span)

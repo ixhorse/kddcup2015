@@ -3,25 +3,22 @@
 import enrollment_feature
 import course_feature
 import numpy as np
+import user_feature
+import user
 
 
 class merge:
     def __init__(self):
-        self.features = []
-        enrollment_Feature = enrollment_feature.EnrollmentFT().user_course
-        courseFT = course_feature.CourseFT(enrollment_Feature)
+        self.features=[]
+        self.enrollment_Feature=enrollment_feature.EnrollmentFT().user_course
+        courseFT = course_feature.CourseFT(self.enrollment_Feature)
         course_Feature = courseFT.course_feature
-        enrollment_course = courseFT.course_enrollment
-        # for enrollment_id in enrollment_Feature.keys():
-        #     for course_id in enrollment_course.keys():
-        #         if(enrollment_id in enrollment_course[course_id]):
-        #             self.features.append(enrollment_Feature[enrollment_id] + course_Feature[course_id])
-        for course_id in enrollment_course:
-            for enroll_id in enrollment_course[course_id]:
-                self.features.append(enrollment_Feature[enroll_id] + course_Feature[course_id])
-
-        # np.savetxt('features.csv', np.array(list(self.features), fmt='%.4f'))
-    # np.savetxt('features.csv', fmt='%.4f', dtype=float)
+        UserFT = user_feature.UserFT(self.enrollment_Feature)
+        user_Feature = UserFT.user_feature
+        Info=user.UserInfo('../data/train/enrollment_train.csv').enrollment_train
+        for row in Info:
+            enrollment_id,username,course_id=row
+            self.features.append(self.enrollment_Feature[enrollment_id]+course_Feature[course_id]+user_Feature[username])
 
 f = merge().features
 for i in f:

@@ -56,7 +56,7 @@ class train:
 
     def get_label(self):
         label = []
-        with open('..\\data\\train\\truth_train.csv') as f:
+        with open('../data/train/truth_train.csv') as f:
             info = csv.reader(f)
             for row in info:
                 en_id, truth = row
