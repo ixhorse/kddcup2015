@@ -6,7 +6,7 @@ class CourseFT:
     def __init__(self, enrollment):
         self.course_feature = {}
         # course_enrollment = {key:course_id,[enrollment_ids]}  一个课程所有的enrollment_id
-        self.course_enrollment = course.CourseInfo('../data/train/enrollment_train.csv').course_enrollment_info
+        self.course_enrollment = course.CourseInfo('..\\data\\train\\enrollment_train.csv').course_enrollment_info
         self.enrollment = enrollment
         for course_id in self.course_enrollment:
             enroll_num = len(self.course_enrollment[course_id])

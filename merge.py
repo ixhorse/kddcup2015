@@ -19,7 +19,3 @@ class merge:
         for row in Info:
             enrollment_id,username,course_id=row
             self.features.append(self.enrollment_Feature[enrollment_id]+course_Feature[course_id]+user_Feature[username])
-
-f = merge().features
-for i in f:
-    print(i)

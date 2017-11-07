@@ -9,7 +9,8 @@ class EnrollmentFT:
         self.user_course = {}
         self.log_time = {}
         #self.UCFeature = []
-        log_info = log.LogInfo('../data/train/log_train.csv').enrollment_info
+        #log_info = log.LogInfo('../data/train/log_train.csv').enrollment_info
+        log_info = log.LogInfo('..\\data\\train\\log_train.csv').enrollment_info
 
         event = ('problem', 'video', 'access', 'wiki', 'discussion', 'navigate', 'page_close')
         source = ('server', 'browser')

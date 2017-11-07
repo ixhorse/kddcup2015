@@ -5,7 +5,7 @@ import user
 class UserFT:
     def __init__(self,enrollment):
         self.user_feature = {}
-        self.user_enrollment = user.UserInfo('../data/train/enrollment_train.csv').user_enrollment_info
+        self.user_enrollment = user.UserInfo('..\\data\\train\\enrollment_train.csv').user_enrollment_info
         self.enrollment=enrollment
         for username in self.user_enrollment.keys():
             log_num = 0
