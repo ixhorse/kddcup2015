@@ -105,7 +105,6 @@ def main():
     print('score:', score)
     for param_name in sorted(best_parameters.keys()):
         print("%s: %r" % (param_name, best_parameters[param_name]))
-    print(clf.predict(xgb_test))
 
 
 if __name__ == '__main__':

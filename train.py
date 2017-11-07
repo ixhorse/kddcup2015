@@ -43,7 +43,7 @@ class train:
         num_rounds = 6000
         model = xgb.train(plist, xgb_train, num_rounds, evals=[(xgb_test, 'eval'), (xgb_train, 'train')], early_stopping_rounds=100)
         pred = model.predict(xgb_test, ntree_limit=model.best_ntree_limit)
-
+        xgb.c
         c_num = 0
         for y, y_t in zip_longest(y_test, pred):
             #print(y, y_t, type(y), type(y_t))
