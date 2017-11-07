@@ -33,7 +33,6 @@ class train:
         #     'lambda': 2,  # 控制模型复杂度的权重值的L2正则化项参数，参数越大，模型越不容易过拟合。
         #     'subsample': 0.8,  # 随机采样训练样本
         #     'colsample_bytree': 0.8,  # 生成树时进行的列采样
-        #     'min_child_weight': 3,
         #     # 这个参数默认是 1，是每个叶子里面 h 的和至少是多少，对正负样本不均衡时的 0-1 分类而言
         #     # ，假设 h 在 0.01 附近，min_child_weight 为 1 意味着叶子节点中最少需要包含 100 个样本。
         #     # 这个参数非常影响结果，控制叶子节点中二阶导的和的最小值，该参数值越小，越容易 overfitting。
@@ -62,7 +61,7 @@ class train:
             #'max_depth': range(3, 10, 2),
             'min_child_weight': range(1, 6, 2)
         }
-        gsearch1 = GridSearchCV(xgb1, param_grid=param_test1, scoring='roc_auc', n_jobs=4, iid=False, cv=5)
+        gsearch1 = GridSearchCV(xgb1, param_grid=param_test1, scoring='roc_auc', n_jobs=-1, iid=False, cv=5)
         gsearch1.fit(X_train, y_train)
         print(gsearch1.cv_results_, gsearch1.best_params_, gsearch1.best_score_)
         #feature importance
